@@ -4,6 +4,7 @@ resolution = 1920x1080
 weaponPos = 10-4
 gamblePos = 9-4
 wipePos = 8-4
+delay = 100
 
 [gamble-config]
 mode=f

@@ -1,7 +1,0 @@
-EasyProcess==0.3
-entrypoint2==0.2.4
-mss==6.1.0
-PyDirectInput==1.0.4
-PyMsgBox==1.0.9
-pyscreenshot==3.0
-PyTweening==1.0.3
