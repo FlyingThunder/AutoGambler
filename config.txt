@@ -1,0 +1,10 @@
+[setup-config]
+windowmode = borderless
+resolution = 1920x1080
+weaponPos = 10-4
+gamblePos = 9-4
+wipePos = 8-4
+
+[gamble-config]
+mode=f
+fixes=legend,max,bio

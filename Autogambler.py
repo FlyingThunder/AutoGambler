@@ -18,6 +18,7 @@ class AutoGambler:
         q = args[6]
         resolution = args[7]
         windowmode = args[8]
+        self.delay = int(args[9])/1000
 
         print(stopcolors)
 
@@ -130,6 +131,8 @@ class AutoGambler:
         #640 | 715 erste box
         #930 | 875 letzte box
         #32 abstand
+
+        time.sleep(self.delay)
         xcoord = self.display_vars['beginning_inventory_x']+self.display_vars['square_distance']*horz
         ycoord = self.display_vars['beginning_inventory_y']+self.display_vars['square_distance']*vert
         time.sleep(0.01)
@@ -137,6 +140,8 @@ class AutoGambler:
 
     def accept(self):
         #1270 | 690
+
+        time.sleep(self.delay)
         time.sleep(0.01)
         pyautogui.click(self.display_vars['accept_button_x'],self.display_vars['accept_button_y'])
 
@@ -149,17 +154,29 @@ class AutoGambler:
         yweaponPos = int(gamblePos.split("-")[1])
         xwipePos = int(wipePos.split("-")[0])
         ywipePos = int(wipePos.split("-")[1])
+
+        time.sleep(self.delay)
         self.doubleclickBox(xweaponPos,ygamblePos)
+        time.sleep(self.delay)
         self.doubleclickBox(xwipePos,ywipePos)
+        time.sleep(self.delay)
         self.accept()
+        time.sleep(self.delay)
         self.accept()
+        time.sleep(self.delay)
         self.doubleclickBox(xweaponPos,ygamblePos)
+        time.sleep(self.delay)
         self.doubleclickBox(xgamblePos,yweaponPos)
+        time.sleep(self.delay)
         self.accept()
+        time.sleep(self.delay)
         self.accept()
 
     def checkFixOCR(self):
         #+1 ,-31 wenn borderless statt windowed
+
+
+        time.sleep(self.delay)
         im = pyscreenshot.grab(bbox=(self.display_vars['sysmessage_box_x_min'], self.display_vars['sysmessage_box_y_min'],
                                      self.display_vars['sysmessage_box_x_max'], self.display_vars['sysmessage_box_y_max']), childprocess=False)  # X1,Y1,X2,Y2
         im.save("box.png")
@@ -180,6 +197,7 @@ class AutoGambler:
 
     def checkPix(self):
 
+        time.sleep(self.delay)
         im = pyscreenshot.grab(bbox=(self.display_vars['sysmessage_box_x_min'], self.display_vars['sysmessage_box_y_min'],
                                      self.display_vars['sysmessage_box_x_max'], self.display_vars['sysmessage_box_y_max']), childprocess=False)  # X1,Y1,X2,Y2
         im.save("box.png")

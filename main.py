@@ -1,24 +1,19 @@
-import pyscreenshot as ImageGrab
-import pydirectinput as pyautogui
-import time
-import os
-import sys
 from multiprocessing import Process, freeze_support, Queue
 from Autogambler import AutoGambler
 import configparser
 
 
 
-def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode):
+def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input):
     foo = AutoGambler()
-    p1 = Process(target=foo.Main, args=(intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, q, resolution, windowmode))
+    p1 = Process(target=foo.Main, args=(intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, q, resolution, windowmode, delay_input))
     p1.start()
     p1.join()
     if q.get() == False:
         x = input("Keep going? (Enter amount of retries, default 10)") or 10
         print(x)
         intervals_input = x
-        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode)
+        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
 
 if __name__ == "__main__":
     freeze_support()
@@ -44,6 +39,7 @@ if __name__ == "__main__":
         except:
             print("Could not load config. Refer to example config, maybe a value is missing.")
     else:
+        delay_input = input("\nHow many ms should the macro wait between each step? (Default 0 - only needed if you are latino or pinoy and play with 200ms)\n") or "0"
         resolution = input("\nWhat resolution are you playing on? (Currently supported: 1920x1080 and 2560x1440)").lower()
         windowmode = input("\nAre you playing on windowed or borderless? !! FULLSCREEN WILL NOT WORK !!").lower()
         weaponPos_input = input("\nWhat square is your weapon on? (e.g. 5th from left, 3rd from top => '5-3')")
@@ -74,4 +70,4 @@ if __name__ == "__main__":
     # testtesttest
     # testtesttest
 
-    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode)
+    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
