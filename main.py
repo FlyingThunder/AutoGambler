@@ -1,23 +1,40 @@
 from multiprocessing import Process, freeze_support, Queue
 from Autogambler import AutoGambler
 import configparser
+import keyboard
 
 
 
-def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input):
+def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2):
     foo = AutoGambler()
     p1 = Process(target=foo.Main, args=(intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, q, resolution, windowmode, delay_input))
     p1.start()
-    p1.join()
+
+
+    p2 = Process(target=keyCatcher, args=(queue2,))
+    p2.start()
+
+    if queue2.get() == False:
+        p1.terminate()
+
+        print("Terminating Programm")
+
+
     if q.get() == False:
         x = input("Keep going? (Enter amount of retries, default 10)") or 10
         print(x)
         intervals_input = x
-        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
+        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2)
+
+def keyCatcher(queue2):
+    while True:
+        if keyboard.is_pressed('q'):  # if key 'q' is pressed
+            queue2.put(False)
 
 if __name__ == "__main__":
     freeze_support()
     q = Queue()
+    queue2 = Queue()
     print("""The game has to be run on the main screen for this to work. Both the game and this programm should be ran in Admin mode \n
     !!! The system message box has to be snapped just in the upper right corner, in minimum size !!!""")
     print("\nMade by FlyingThunder @ 28.05.2021\n")
@@ -40,7 +57,7 @@ if __name__ == "__main__":
         except:
             print("Could not load config. Refer to example config, maybe a value is missing.")
     else:
-        delay_input = input("\nHow many ms should the macro wait between each step? (Default 0 - only needed if you are latino or pinoy and play with 200ms)\n") or "0"
+        delay_input = input("\nHow many ms should the macro wait between each step? (Default 0 - only needed if you are latino or pinoy and play with 200ms)") or "0"
         resolution = input("\nWhat resolution are you playing on? (Currently supported: 1920x1080 and 2560x1440)").lower() or "1920x1080"
         windowmode = input("\nAre you playing on windowed or borderless? !! FULLSCREEN WILL NOT WORK !!").lower() or "windowed"
         weaponPos_input = input("\nWhat square is your weapon on? (e.g. 5th from left, 3rd from top => '5-3')") or "1-1"
@@ -64,4 +81,4 @@ if __name__ == "__main__":
             exit()
 
 
-    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
+    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2)
