@@ -2,23 +2,22 @@ from multiprocessing import Process, freeze_support, Queue
 from Autogambler import AutoGambler
 import configparser
 import keyboard
-
+import sys
 
 
 def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2):
     foo = AutoGambler()
     p1 = Process(target=foo.Main, args=(intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, q, resolution, windowmode, delay_input))
     p1.start()
-
-
     p2 = Process(target=keyCatcher, args=(queue2,))
     p2.start()
-
     if queue2.get() == False:
-        p1.terminate()
-
         print("Terminating Programm")
-
+        p1.terminate()
+        p1.join()
+        p2.terminate()
+        p2.join()
+        sys.exit()
 
     if q.get() == False:
         x = input("Keep going? (Enter amount of retries, default 10)") or 10
@@ -36,8 +35,9 @@ if __name__ == "__main__":
     q = Queue()
     queue2 = Queue()
     print("""The game has to be run on the main screen for this to work. Both the game and this programm should be ran in Admin mode \n
-    !!! The system message box has to be snapped just in the upper right corner, in minimum size !!!""")
-    print("\nMade by FlyingThunder @ 28.05.2021\n")
+    !!! The system message box has to be snapped just in the upper right corner, in minimum size !!!\n \n
+    For more info on how to use, go to https://github.com/FlyingThunder/AutoGambler/blob/master/readme.md or open the readme file in the AutoGambler folder\n""")
+    print("\nVersion 3 made by FlyingThunder @ 07.06.2021\n")
     intervals_input = input("\nRepeat how often? (X for infinite, default 10)") or 10
     config_input = input("\nDo you have a set-up configuration? [y / n]").lower()
     if config_input == "y":

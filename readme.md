@@ -28,6 +28,8 @@ I recommend using the fixes mode even if it uses OCR just because its obviously 
 For the fixes, the input isnt case sensitive, and if you want suffixes you have to include the "of".
 
 
+If you want to cancel it while running, press "q".
+
 
 # IMPORTANT
 
