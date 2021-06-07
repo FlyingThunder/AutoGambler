@@ -203,8 +203,13 @@ class AutoGambler:
                                      self.display_vars['sysmessage_box_x_max'], self.display_vars['sysmessage_box_y_max']), childprocess=False)  # X1,Y1,X2,Y2
         im.save("box.png")
 
+        img = cv2.imread("box.png", 0)
+        ret, thresh1 = cv2.threshold(img, 48, 255, cv2.THRESH_BINARY)
+        cv2.imwrite("box2.png", thresh1)
+
         pytesseract.pytesseract.tesseract_cmd = r'TesseractOCR\tesseract.exe'
-        print(pytesseract.image_to_string('box.png'))
+        fix = (pytesseract.image_to_string('box2.png')).lower()
+        print(fix)
 
         pix = im.load()
         #print(pix[1, 75])

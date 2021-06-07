@@ -44,7 +44,6 @@ For more info on how to use, go to \nhttps://github.com/FlyingThunder/AutoGamble
 
 
 
-
     intervals_input = input("\nRepeat how often? (X for infinite, default 10)") or 10
     config_input = input("\nDo you have a set-up configuration? [y / n]").lower()
     if config_input == "y":
