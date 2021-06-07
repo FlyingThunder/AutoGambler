@@ -95,7 +95,6 @@ class AutoGambler:
                     if Color == False:
                         print("color could still not be detected.")
                         q.put(False)
-                        break
                     elif Color in stopcolors:
                         keepgoing = False
                         break
@@ -235,5 +234,7 @@ class AutoGambler:
                 #print("Armor prob") armor prob
                 return "armor prob"
 
-        print("unknown color detected")
+        print(f"unknown color detected")# - debug:{str(list(pix[1,x] for x in range(3, 13)))}")
+
+
         return False

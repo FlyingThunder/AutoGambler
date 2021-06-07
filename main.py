@@ -5,35 +5,37 @@ import keyboard
 import sys
 
 
-def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2):
+def main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input):
     foo = AutoGambler()
     p1 = Process(target=foo.Main, args=(intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, q, resolution, windowmode, delay_input))
     p1.start()
-    p2 = Process(target=keyCatcher, args=(queue2,))
+    p2 = Process(target=keyCatcher, args=(q,))
     p2.start()
-    if queue2.get() == False:
+
+    QueueOutput = q.get()
+
+    if QueueOutput:
         print("Terminating Programm")
         p1.terminate()
         p1.join()
         p2.terminate()
         p2.join()
         sys.exit()
-
-    if q.get() == False:
+    elif not QueueOutput:
         x = input("Keep going? (Enter amount of retries, default 10)") or 10
         print(x)
         intervals_input = x
-        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2)
+        main(q, intervals_input, weaponPos_input, gamblePos_input, wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
 
-def keyCatcher(queue2):
+
+def keyCatcher(q):
     while True:
         if keyboard.is_pressed('q'):  # if key 'q' is pressed
-            queue2.put(False)
+            q.put(True)
 
 if __name__ == "__main__":
     freeze_support()
     q = Queue()
-    queue2 = Queue()
     print("Version 3 made by FlyingThunder @ 07.06.2021")
     print("""\nThis programm has to run in Admin mode on the main screen.\n
 !!! The system message box has to be snapped just in the upper right corner, in minimum size, with a dark background (e.g. the floor/wall) !!!\n
@@ -57,10 +59,13 @@ For more info on how to use, go to \nhttps://github.com/FlyingThunder/AutoGamble
             gamblePos_input = configParser.get('setup-config', 'gamblePos')
             wipePos_input = configParser.get('setup-config', 'wipePos')
             mode_input = configParser.get('gamble-config', 'mode')
-            if mode_input == "r":
+            print(mode_input)
+            if str(mode_input) == "r":
                 color_input = configParser.get('gamble-config', 'rarity')
-            elif mode_input == "f":
+            elif str(mode_input) == "f":
                 color_input = configParser.get('gamble-config', 'fixes')
+            else:
+                color_input = "r"
             delay_input = configParser.get('setup-config', 'delay')
         except:
             print("Could not load config. Refer to example config, maybe a value is missing.")
@@ -89,4 +94,4 @@ For more info on how to use, go to \nhttps://github.com/FlyingThunder/AutoGamble
             exit()
 
 
-    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode, delay_input, queue2)
+    main(q, intervals_input, weaponPos_input, gamblePos_input,wipePos_input, mode_input, color_input, resolution, windowmode, delay_input)
