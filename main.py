@@ -34,10 +34,15 @@ if __name__ == "__main__":
     freeze_support()
     q = Queue()
     queue2 = Queue()
-    print("""The game has to be run on the main screen for this to work. Both the game and this programm should be ran in Admin mode \n
-    !!! The system message box has to be snapped just in the upper right corner, in minimum size !!!\n \n
-    For more info on how to use, go to https://github.com/FlyingThunder/AutoGambler/blob/master/readme.md or open the readme file in the AutoGambler folder\n""")
-    print("\nVersion 3 made by FlyingThunder @ 07.06.2021\n")
+    print("Version 3 made by FlyingThunder @ 07.06.2021")
+    print("""\nThis programm has to run in Admin mode on the main screen.\n
+!!! The system message box has to be snapped just in the upper right corner, in minimum size, with a dark background (e.g. the floor/wall) !!!\n
+For more info on how to use, go to \nhttps://github.com/FlyingThunder/AutoGambler/blob/master/readme.md \nor open the readme file in the AutoGambler folder\n""")
+    print("Press 'q' to interrupt the programm")
+
+
+
+
     intervals_input = input("\nRepeat how often? (X for infinite, default 10)") or 10
     config_input = input("\nDo you have a set-up configuration? [y / n]").lower()
     if config_input == "y":
@@ -52,7 +57,10 @@ if __name__ == "__main__":
             gamblePos_input = configParser.get('setup-config', 'gamblePos')
             wipePos_input = configParser.get('setup-config', 'wipePos')
             mode_input = configParser.get('gamble-config', 'mode')
-            color_input = configParser.get('gamble-config', 'fixes')
+            if mode_input == "r":
+                color_input = configParser.get('gamble-config', 'rarity')
+            elif mode_input == "f":
+                color_input = configParser.get('gamble-config', 'fixes')
             delay_input = configParser.get('setup-config', 'delay')
         except:
             print("Could not load config. Refer to example config, maybe a value is missing.")

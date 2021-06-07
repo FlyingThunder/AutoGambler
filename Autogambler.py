@@ -6,7 +6,8 @@ import cv2
 
 class AutoGambler:
     def Main(self, *args):
-        print(args)
+        with open("debug.txt", "w") as x:
+            x.write(str(args))
         intervals = args[0]
         weaponPos = args[1]
         gamblePos = args[2]
@@ -86,6 +87,7 @@ class AutoGambler:
                 print("detected color: " + str(Color))
                 if Color in stopcolors:
                     keepgoing = False
+                    print(f"{str(Color)} is found in {stopcolors}")
                 elif Color == False:
                     print("color could not be detected. waiting 5 seconds and then checking again...")
                     time.sleep(5)
