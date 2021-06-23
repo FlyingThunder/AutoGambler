@@ -15,7 +15,10 @@ class AutoGambler:
         mode = args[4]
         stopcolors = []
         for x in args[5].lower().split(","):
+            x = x[:-1] if x.endswith(" ") else x
+            x = x[1:] if x.startswith(" ") else x
             stopcolors.append(x)
+
         q = args[6]
         resolution = args[7]
         windowmode = args[8]
@@ -84,6 +87,8 @@ class AutoGambler:
 
             if mode == "r":
                 Color = self.checkPix()
+                Color = Color[:-1] if Color.endswith(" ") else Color
+                Color = Color[1:] if Color.startswith(" ") else Color
                 print("detected color: " + str(Color))
                 if Color in stopcolors:
                     keepgoing = False
@@ -105,6 +110,8 @@ class AutoGambler:
 
             elif mode == "f":
                 fix = self.checkFixOCR()
+                fix = fix[:-1] if fix.endswith(" ") else fix
+                fix = fix[1:] if fix.startswith(" ") else fix
                 print("detected fix: " + str(fix))
                 if fix in stopcolors:
                     keepgoing = False
