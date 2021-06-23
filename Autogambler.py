@@ -87,12 +87,11 @@ class AutoGambler:
 
             if mode == "r":
                 Color = self.checkPix()
-                Color = Color[:-1] if Color.endswith(" ") else Color
-                Color = Color[1:] if Color.startswith(" ") else Color
-                print("detected color: " + str(Color))
-                if Color in stopcolors:
-                    keepgoing = False
-                    print(f"{str(Color)} is found in {stopcolors}")
+                if Color:
+                    print("detected color: " + str(Color))
+                    if Color in stopcolors:
+                        keepgoing = False
+                        print(f"{str(Color)} is found in {stopcolors}")
                 elif Color == False:
                     print("color could not be detected. waiting 5 seconds and then checking again...")
                     time.sleep(5)
