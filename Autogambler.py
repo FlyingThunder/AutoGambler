@@ -15,7 +15,10 @@ class AutoGambler:
         mode = args[4]
         stopcolors = []
         for x in args[5].lower().split(","):
+            x = x[:-1] if x.endswith(" ") else x
+            x = x[1:] if x.startswith(" ") else x
             stopcolors.append(x)
+
         q = args[6]
         resolution = args[7]
         windowmode = args[8]
