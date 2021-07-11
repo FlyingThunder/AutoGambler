@@ -1,5 +1,5 @@
-#**What is this?**
-Discontinued - use Meteor/Lizardess gamblebot
+#**Discontinued - use Meteor/Lizardess gamblebot**
+
 
 #**What is this?**
 This is a gamble bot made by me to automate applying fixes to weapons or armors in Airrivals.
